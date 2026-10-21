@@ -19,7 +19,8 @@ services:
       - 61001:8118
 
   http:
-    image: "caligari/privoxy:latest"
+    build: privoxy/.
+    image: mvpn-http
     container_name: mvpn-http
     restart: unless-stopped
     network_mode: service:mullvad

@@ -4,12 +4,13 @@ LABEL maintainer="Bernard Ko"
 
 # Credit to Ivan Miric for the following from imiric/mullvad-proxy
 
-ARG VERSION=2024.3
+ARG VERSION=2026.5
 
 # Install Mullvad VPN binaries only. We don't install the Debian package
 # directly since it depends on systemd, which is difficult to setup in
 # containers because it requires to be running as PID 1.
 RUN DEBIAN_FRONTEND=noninteractive; apt-get --yes update && \
+    apt-get --yes upgrade && \
     apt-get --yes install ca-certificates dbus curl dnsutils && \
     curl -fsSL -o mullvadvpn.deb "https://github.com/mullvad/mullvadvpn-app/releases/download/${VERSION}/MullvadVPN-${VERSION}_$(dpkg --print-architecture).deb" && \
     dpkg-deb -R mullvadvpn.deb /tmp/pkg && \

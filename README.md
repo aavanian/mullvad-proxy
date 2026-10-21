@@ -53,7 +53,7 @@ cd mullvad-proxy
 
 I recommend using a `.env` file to save you some typing. Copy the `.env.example` file and make your changes there. The Mullvad account number can also be set in the .env file like the following.
 ```bash
-MULLVAD_VERSION=2023.6
+MULLVAD_VERSION=2026.5
 ACCOUNT_NUMBER=<Mullvad Account Number>
 HTTP_PORT=8118
 SOCKS5_PORT=1080
@@ -77,6 +77,14 @@ To teardown the containers and delete all images created use the following:
 
 This script first runs `mullvad account get` and `mullvad tunnel get` to output the account and Wireguard key that is used in the Docker container. Finally it will run `docker-compose down` to teardown the container processes. This allows you to conveniently delete the unused key from the [Manage ports and WireGuard keys page](https://mullvad.net/en/account/#/ports) (without having to guess which key it is) so that it is not locked up.
 
+
+## Updating
+
+To move to a new Mullvad release, change `MULLVAD_VERSION` in `.env`. To pick up OS security fixes (including CA certificate updates), rebuild without the layer cache so the `apt`/`apk` upgrade steps run again:
+
+```bash
+docker compose build --pull --no-cache && docker compose up -d
+```
 
 ## Use Mullvad CLI
 
